@@ -9,10 +9,32 @@ function PLUGIN:EnvKeys(ctx)
 
     -- Basic configuration (minimum required for most tools)
     -- This adds the bin directory to PATH so the tool can be executed
+
+    local sdkPath = mainPath .. "/x86_64"
     return {
         {
+            key = "VULKAN_SDK",
+            value = sdkPath,
+        },
+        {
             key = "PATH",
-            value = mainPath .. "/bin",
+            value = sdkPath .. "/bin",
+        },
+        {
+            key = "LD_LIBRARY_PATH",
+            value = sdkPath .. "/lib",
+        },
+        {
+            key = "VK_ADD_LAYER_PATH",
+            value = sdkPath .. "/share/vulkan/explicit_layer.d",
+        },
+        {
+            key = "PKG_CONFIG_PATH",
+            value = sdkPath .. "/share/pkgconfig",
+        },
+        {
+            key = "PKG_CONFIG_PATH",
+            value = sdkPath .. "/lib/pkgconfig",
         },
     }
 

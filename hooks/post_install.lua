@@ -8,23 +8,23 @@ function PLUGIN:PostInstall(ctx)
 
     -- Example 1: Single binary file (most common)
     -- The file is downloaded directly, move it to bin/ and make executable
-    os.execute("mkdir -p " .. path .. "/bin")
-
-    local srcFile = path .. "/" .. PLUGIN.name
-    local destFile = path .. "/bin/" .. PLUGIN.name
-
-    -- Move and make executable
-    local result = os.execute("mv " .. srcFile .. " " .. destFile .. " && chmod +x " .. destFile)
-    if result ~= 0 then
-        error("Failed to install " .. PLUGIN.name .. " binary")
-    end
-
-    -- Verify installation works
-    local testResult = os.execute(destFile .. " --version > /dev/null 2>&1")
-    if testResult ~= 0 then
-        error(PLUGIN.name .. " installation appears to be broken")
-    end
-
+--    os.execute("mkdir -p " .. path .. "/bin")
+--
+--    local srcFile = path .. "/" .. PLUGIN.name
+--    local destFile = path .. "/bin/" .. PLUGIN.name
+--
+--    -- Move and make executable
+--    local result = os.execute("mv " .. srcFile .. " " .. destFile .. " && chmod +x " .. destFile)
+--    if result ~= 0 then
+--        error("Failed to install " .. PLUGIN.name .. " binary")
+--    end
+--
+--    -- Verify installation works
+--    local testResult = os.execute(destFile .. " --version > /dev/null 2>&1")
+--    if testResult ~= 0 then
+--        error(PLUGIN.name .. " installation appears to be broken")
+--    end
+--
     -- Example 2: Archive already extracted by mise
     -- If pre_install returns a .tar.gz or .zip, mise extracts it automatically
     -- You might just need to move files around:
