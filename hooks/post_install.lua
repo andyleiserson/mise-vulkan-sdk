@@ -18,7 +18,7 @@ function PLUGIN:PostInstall(ctx)
             "set -e; " ..
             "tmp=$(mktemp -d); " ..
             "mv %q/* \"$tmp\"/; " ..
-            "\"$tmp\"/%s --root %q --accept-licenses --default-answer --confirm-command install copy_only=1; " ..
+            "\"$tmp\"/%s --root %q --accept-licenses --default-answer --confirm-command install com.lunarg.vulkan.core com.lunarg.vulkan.kosmic copy_only=1; " ..
             "rm -rf \"$tmp\"",
             path,
             installer,

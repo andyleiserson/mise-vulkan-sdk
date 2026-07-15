@@ -45,6 +45,14 @@ function PLUGIN:EnvKeys(ctx)
             key = "VK_DRIVER_FILES",
             value = sdkPath .. "/share/vulkan/icd.d/MoltenVK_icd.json",
         },
+        {
+            key = "VK_ICD_FILENAMES",
+            value = sdkPath .. "/share/vulkan/icd.d/libkosmickrisp_icd.json",
+        },
+        {
+            key = "VK_DRIVER_FILES",
+            value = sdkPath .. "/share/vulkan/icd.d/libkosmickrisp_icd.json",
+        },
     }
 
     -- Example: Tool-specific environment variables
