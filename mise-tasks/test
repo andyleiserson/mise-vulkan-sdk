@@ -1,18 +1,32 @@
 #!/usr/bin/env bash
-#MISE description="Run plugin tests - install and execute tool"
+#MISE description="Run plugin tests - install the latest SDK and exercise the toolchain"
 set -euo pipefail
 
-mise plugin link --force <TOOL> .
+PLUGIN=vulkan-sdk
+
+mise plugin link --force "$PLUGIN" .
 mise cache clear
-mise install <TOOL>@1.0.0
 
-# Capture and display the output while also verifying it
-output=$(mise exec "<TOOL>@1.0.0" -- "<TOOL>" --version)
-echo "<TOOL> output: $output"
-
-if echo "$output" | grep -q '<TOOL>@1.0.0'; then
-    echo "✓ Tests passed"
-else
-    echo "✗ Test failed: expected version <TOOL>@1.0.0"
+# ls-remote sorts ascending, so the newest version is last.
+version=$(mise ls-remote "$PLUGIN" | tail -1)
+if [ -z "$version" ]; then
+    echo "✗ Test failed: no versions returned by Available hook"
     exit 1
 fi
+echo "Testing $PLUGIN@$version"
+
+mise install "$PLUGIN@$version"
+
+# The SDK environment should be wired up...
+sdk=$(mise exec "$PLUGIN@$version" -- sh -c 'echo "$VULKAN_SDK"')
+echo "VULKAN_SDK=$sdk"
+if [ -z "$sdk" ] || [ ! -d "$sdk/bin" ]; then
+    echo "✗ Test failed: VULKAN_SDK is not set to a valid SDK directory"
+    exit 1
+fi
+
+# ...and the bundled toolchain should be runnable.
+output=$(mise exec "$PLUGIN@$version" -- glslang --version)
+echo "glslang output: $output"
+
+echo "✓ Tests passed"

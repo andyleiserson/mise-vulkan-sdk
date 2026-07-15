@@ -16,7 +16,7 @@ PLUGIN = { -- luacheck: ignore
     author = "andyleiserson",
 
     -- Optional: Repository URL for plugin updates
-    updateUrl = "https://github.com/<GITHUB_USER>/mise-<TOOL>",
+    updateUrl = "https://github.com/andyleiserson/mise-vulkan-sdk",
 
     -- Optional: Minimum mise runtime version required
     minRuntimeVersion = "0.2.0",
