@@ -6,6 +6,31 @@ function PLUGIN:PostInstall(ctx)
     local path = sdkInfo.path
     -- local version = sdkInfo.version
 
+    if RUNTIME.osType == "darwin" then
+        -- mise extracts the downloaded zip directly into the install path
+        -- (`path`), stripping the top-level `vulkansdk-macOS-<v>.app/`
+        -- component, so the .app bundle's `Contents/` lands directly under
+        -- `path`. Move the unpacked installer to a temporary directory, then
+        -- run it to install into `path`.
+        local installer = "Contents/MacOS/vulkansdk-macOS-1.4.350.1"
+
+        local result = os.execute(string.format(
+            "set -e; " ..
+            "tmp=$(mktemp -d); " ..
+            "mv %q/* \"$tmp\"/; " ..
+            "\"$tmp\"/%s --root %q --accept-licenses --default-answer --confirm-command install copy_only=1; " ..
+            "rm -rf \"$tmp\"",
+            path,
+            installer,
+            path
+        ))
+        if result ~= 0 then
+            error("Failed to install " .. PLUGIN.name)
+        end
+    end
+
+    -- optional cleanup of the staging dir (see note below on portability)
+    -- cmd.exec(string.format("rm -rf %q", src))
     -- Example 1: Single binary file (most common)
     -- The file is downloaded directly, move it to bin/ and make executable
 --    os.execute("mkdir -p " .. path .. "/bin")

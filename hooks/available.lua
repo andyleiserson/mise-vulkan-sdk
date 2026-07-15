@@ -50,10 +50,24 @@
 ---    return result
 ---end
 function PLUGIN:Available(ctx)
-    return {
-        {
-            version = "1.4.350.1",
-            checksum = "6cce33c7e5383814150c5041820769d93c65a1fd883002e5949b067045a07daa",
+    --if RUNTIME.osType == "windows" then
+    --    -- Windows-specific installation
+    --    return install_windows(version)
+    if RUNTIME.osType == "darwin" then
+        -- macOS-specific installation
+        return {
+            {
+                version = "1.4.350.1",
+                checksum = "2079f1fea64814be86b562903c0d06dae63f2bda0e692839915f3ac5b3ab496b",
+            }
         }
-    }
+    else
+        -- Linux installation
+        return {
+            {
+                version = "1.4.350.1",
+                checksum = "6cce33c7e5383814150c5041820769d93c65a1fd883002e5949b067045a07daa",
+            }
+        }
+    end
 end

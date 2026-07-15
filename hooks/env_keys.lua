@@ -10,7 +10,7 @@ function PLUGIN:EnvKeys(ctx)
     -- Basic configuration (minimum required for most tools)
     -- This adds the bin directory to PATH so the tool can be executed
 
-    local sdkPath = mainPath .. "/x86_64"
+    local sdkPath = mainPath .. "/macOS" -- x86_64
     return {
         {
             key = "VULKAN_SDK",
@@ -21,7 +21,7 @@ function PLUGIN:EnvKeys(ctx)
             value = sdkPath .. "/bin",
         },
         {
-            key = "LD_LIBRARY_PATH",
+            key = "DYLD_LIBRARY_PATH", -- LD_LIBRARY_PATH
             value = sdkPath .. "/lib",
         },
         {
@@ -35,6 +35,15 @@ function PLUGIN:EnvKeys(ctx)
         {
             key = "PKG_CONFIG_PATH",
             value = sdkPath .. "/lib/pkgconfig",
+        },
+	-- MacOS only
+        {
+            key = "VK_ICD_FILENAMES",
+            value = sdkPath .. "/share/vulkan/icd.d/MoltenVK_icd.json",
+        },
+        {
+            key = "VK_DRIVER_FILES",
+            value = sdkPath .. "/share/vulkan/icd.d/MoltenVK_icd.json",
         },
     }
 

@@ -19,24 +19,22 @@ function PLUGIN:PreInstall(ctx)
     -- Example 4: Raw file from repository
     -- local url = "https://raw.githubusercontent.com/<GITHUB_USER>/<GITHUB_REPO>/" .. version .. "/bin/<TOOL>"
 
-    -- Replace with your actual download URL pattern
-    local url = "https://sdk.lunarg.com/sdk/download/1.4.350.1/linux/vulkansdk-linux-x86_64-1.4.350.1.tar.xz"
-
     -- Optional: Fetch checksum for verification
     -- local sha256 = fetch_checksum(version) -- Implement if checksums are available
 
-    return {
-        version = version,
-        url = url,
-        -- sha256 = sha256, -- Optional but recommended for security
-        note = "Downloading Vulkan SDK",
-        -- addition = { -- Optional: download additional components
-        --     {
-        --         name = "component",
-        --         url = "https://example.com/component.tar.gz"
-        --     }
-        -- }
-    }
+    if RUNTIME.osType == "darwin" then
+        return {
+            version = version,
+            url = "https://sdk.lunarg.com/sdk/download/1.4.350.1/mac/vulkansdk-macos-1.4.350.1.zip",
+            -- sha256 = sha256, -- Optional but recommended for security
+        }
+    else
+        return {
+            version = version,
+            url = "https://sdk.lunarg.com/sdk/download/1.4.350.1/linux/vulkansdk-linux-x86_64-1.4.350.1.tar.xz",
+            -- sha256 = sha256, -- Optional but recommended for security
+        }
+    end
 end
 
 -- Helper function for platform detection (uncomment and modify as needed)

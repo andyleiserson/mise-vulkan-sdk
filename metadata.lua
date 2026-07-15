@@ -4,16 +4,16 @@
 
 PLUGIN = { -- luacheck: ignore
     -- Required: Tool name (lowercase, no spaces)
-    name = "<TOOL>",
+    name = "vulkan-sdk",
 
     -- Required: Plugin version (not the tool version)
     version = "1.0.0",
 
     -- Required: Brief description of the tool
-    description = "A mise tool plugin for <TOOL>",
+    description = "A mise tool plugin for the Vulkan SDK",
 
     -- Required: Plugin author/maintainer
-    author = "<GITHUB_USER>",
+    author = "andyleiserson",
 
     -- Optional: Repository URL for plugin updates
     updateUrl = "https://github.com/<GITHUB_USER>/mise-<TOOL>",
