@@ -59,6 +59,28 @@ function M.platform()
     end
 end
 
+--- Compare two dotted numeric version strings (e.g. "1.4.363.0").
+--- Missing components are treated as 0.
+--- @param a string
+--- @param b string
+--- @return integer -1, 0 or 1 as a is less than, equal to or greater than b
+function M.compare_versions(a, b)
+    local pa, pb = {}, {}
+    for n in a:gmatch("%d+") do
+        pa[#pa + 1] = tonumber(n)
+    end
+    for n in b:gmatch("%d+") do
+        pb[#pb + 1] = tonumber(n)
+    end
+    for i = 1, math.max(#pa, #pb) do
+        local x, y = pa[i] or 0, pb[i] or 0
+        if x ~= y then
+            return x < y and -1 or 1
+        end
+    end
+    return 0
+end
+
 --- URL returning the JSON array of available versions for a platform.
 --- @param plat VulkanPlatform
 --- @return string

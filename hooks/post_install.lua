@@ -14,16 +14,24 @@ function PLUGIN:PostInstall(ctx)
         -- run it to install into `path`.
         local installer = "Contents/MacOS/vulkansdk-macOS-" .. version
 
+        -- Starting with 1.4.363.0, kosmickrisp is no longer an optional
+        -- component, so it must not be requested explicitly.
+        local components = "com.lunarg.vulkan.core"
+        if require("vulkan").compare_versions(version, "1.4.363.0") < 0 then
+            components = components .. " com.lunarg.vulkan.kosmic"
+        end
+
         local result = os.execute(
             string.format(
                 "set -e; "
                     .. "tmp=$(mktemp -d); "
                     .. 'mv %q/* "$tmp"/; '
-                    .. '"$tmp"/%s --root %q --accept-licenses --default-answer --confirm-command install com.lunarg.vulkan.core com.lunarg.vulkan.kosmic copy_only=1; '
+                    .. '"$tmp"/%s --root %q --accept-licenses --default-answer --confirm-command install %s copy_only=1; '
                     .. 'rm -rf "$tmp"',
                 path,
                 installer,
-                path
+                path,
+                components
             )
         )
         if result ~= 0 and result ~= true then
